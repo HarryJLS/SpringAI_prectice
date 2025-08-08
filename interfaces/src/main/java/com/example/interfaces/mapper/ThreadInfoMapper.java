@@ -2,15 +2,16 @@ package com.example.interfaces.mapper;
 
 import com.example.domain.model.ThreadInfo;
 import com.example.interfaces.dto.ThreadInfoDto;
+import jakarta.validation.Valid;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import jakarta.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 线程信息映射器
- * 使用MapStruct进行Domain对象与DTO对象之间的转换
+ * 使用静态方法进行Domain对象与DTO对象之间的转换
  * 
  * @author Claude
  * @since 1.0.0

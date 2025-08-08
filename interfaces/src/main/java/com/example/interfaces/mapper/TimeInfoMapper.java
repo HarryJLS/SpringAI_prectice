@@ -5,11 +5,9 @@ import com.example.interfaces.dto.TimeInfoDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import jakarta.validation.Valid;
-
 /**
  * 时间信息映射器
- * 使用MapStruct进行Domain对象与DTO对象之间的转换
+ * 使用静态方法进行Domain对象与DTO对象之间的转换
  * 
  * @author Claude
  * @since 1.0.0
@@ -25,7 +23,6 @@ public interface TimeInfoMapper {
      * @param timeInfo Domain层时间信息对象
      * @return DTO时间信息对象
      */
-    @Valid
     TimeInfoDto toDto(TimeInfo timeInfo);
     
     /**
@@ -34,6 +31,5 @@ public interface TimeInfoMapper {
      * @param timeInfoDto DTO时间信息对象
      * @return Domain层时间信息对象
      */
-    @Valid
     TimeInfo toDomain(TimeInfoDto timeInfoDto);
 }
