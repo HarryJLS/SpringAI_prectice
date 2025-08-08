@@ -1,0 +1,39 @@
+package com.example.interfaces.mapper;
+
+import com.example.domain.model.TimeInfo;
+import com.example.interfaces.dto.TimeInfoDto;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+import jakarta.validation.Valid;
+
+/**
+ * 时间信息映射器
+ * 使用MapStruct进行Domain对象与DTO对象之间的转换
+ * 
+ * @author Claude
+ * @since 1.0.0
+ */
+@Mapper
+public interface TimeInfoMapper {
+    
+    TimeInfoMapper INSTANCE = Mappers.getMapper(TimeInfoMapper.class);
+    
+    /**
+     * Domain对象转换为DTO
+     * 
+     * @param timeInfo Domain层时间信息对象
+     * @return DTO时间信息对象
+     */
+    @Valid
+    TimeInfoDto toDto(TimeInfo timeInfo);
+    
+    /**
+     * DTO转换为Domain对象
+     * 
+     * @param timeInfoDto DTO时间信息对象
+     * @return Domain层时间信息对象
+     */
+    @Valid
+    TimeInfo toDomain(TimeInfoDto timeInfoDto);
+}
