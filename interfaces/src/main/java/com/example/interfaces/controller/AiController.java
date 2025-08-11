@@ -34,18 +34,27 @@ public class AiController {
 
     /**
      * 与AI模型进行无状态聊天的接口
+     * 该接口不保存任何上下文信息，每次请求都是独立的
      *
-     * @param message 发送给AI的消息
+     * @param request 聊天请求，sessionId和enableContext字段将被忽略
      * @return 统一响应结果，包含AI的回复内容
      */
-    @GetMapping("/chat")
-    public Result<String> chat(@RequestParam(value = "message", defaultValue = "给我讲个笑话") String message) {
+    @PostMapping("/chat")
+    public Result<ChatResponseDto> chat(@Valid @RequestBody ChatRequestDto request) {
         try {
             String response = statelessChatClient.prompt()
-                    .user(message)
+                    .user(request.getMessage())
                     .call()
                     .content();
-            return Result.success(response);
+            
+            // 创建响应DTO，标记为无上下文
+            ChatResponseDto chatResponse = new ChatResponseDto(
+                null, // 无状态聊天不返回sessionId
+                response,
+                false // 未使用上下文
+            );
+            
+            return Result.success(chatResponse);
         } catch (Exception e) {
             throw BusinessException.threadError("AI 服务调用失败", e);
         }
