@@ -34,4 +34,15 @@ public interface TimeService {
      * @throws RuntimeException 当线程被中断时抛出
      */
     void simulateWork(int threadIndex);
+    
+    /**
+     * 执行任务并获取线程信息
+     * 在当前线程中执行模拟工作，然后获取线程信息
+     * 用于虚拟线程场景，确保获取到正确的线程名称
+     * 
+     * @param threadIndex 线程索引
+     * @return 线程信息值对象
+     * @throws RuntimeException 当线程被中断时抛出
+     */
+    ThreadInfo executeTaskAndGetThreadInfo(int threadIndex);
 }

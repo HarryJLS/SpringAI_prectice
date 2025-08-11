@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 线程池配置类
@@ -19,12 +21,16 @@ public class ThreadPoolConfig {
     /**
      * 虚拟线程池Bean
      * 使用Java 21的虚拟线程功能，适合I/O密集型任务
+     * 使用自定义线程工厂为虚拟线程命名
      * 
      * @return 虚拟线程执行器服务
      */
     @Bean(name = "virtualThreadPool")
     public ExecutorService virtualThreadPool() {
-        return Executors.newVirtualThreadPerTaskExecutor();
+        ThreadFactory virtualThreadFactory = Thread.ofVirtual()
+                .name("virtual-worker-", 0)
+                .factory();
+        return Executors.newThreadPerTaskExecutor(virtualThreadFactory);
     }
     
     /**

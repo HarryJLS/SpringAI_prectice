@@ -53,4 +53,21 @@ public class TimeServiceImpl implements TimeService {
             throw new RuntimeException("Thread interrupted", e);
         }
     }
+    
+    /**
+     * 执行任务并获取线程信息
+     * 在当前线程中执行模拟工作，然后获取线程信息
+     * 确保获取到正确的虚拟线程名称
+     * 
+     * @param threadIndex 线程索引
+     * @return 线程信息值对象
+     * @throws RuntimeException 当线程被中断时抛出运行时异常
+     */
+    @Override
+    public ThreadInfo executeTaskAndGetThreadInfo(int threadIndex) {
+        // 先执行模拟工作
+        simulateWork(threadIndex);
+        // 然后在当前线程（虚拟线程）中获取线程信息
+        return ThreadInfo.current(threadIndex, TimeConstants.PRECISE_TIME_FORMATTER);
+    }
 }

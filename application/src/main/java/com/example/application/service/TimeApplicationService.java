@@ -66,8 +66,8 @@ public class TimeApplicationService {
         for (int i = 0; i < threadCount; i++) {
             final int threadIndex = i;
             CompletableFuture<ThreadInfo> future = CompletableFuture.supplyAsync(() -> {
-                timeService.simulateWork(threadIndex);
-                return timeService.getThreadTimeInfo(threadIndex);
+                // 使用新方法，在虚拟线程内部执行任务并获取线程信息
+                return timeService.executeTaskAndGetThreadInfo(threadIndex);
             }, virtualThreadPool);
             
             futures.add(future);
