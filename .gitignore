@@ -20,3 +20,7 @@
 /application/target/generated-sources/annotations/com/example/application/mapper/TimeInfoMapperImpl.java
 /domain/target/classes/com/example/domain/service/TimeService.class
 /domain/target/classes/com/example/domain/service/impl/TimeServiceImpl.class
+/domain/target
+/application/target
+/bootstrap/target
+/interfaces/target
