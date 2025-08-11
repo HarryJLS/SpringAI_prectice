@@ -1,4 +1,4 @@
-package com.example.interfaces.dto;
+package com.example.application.dto;
 
 /**
  * 时间信息数据传输对象

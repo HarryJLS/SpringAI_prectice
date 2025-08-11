@@ -1,4 +1,4 @@
-package com.example.interfaces.dto;
+package com.example.application.dto;
 
 /**
  * 线程信息数据传输对象

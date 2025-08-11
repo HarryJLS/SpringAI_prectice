@@ -1,14 +1,10 @@
 package com.example.interfaces.controller;
 
+import com.example.application.dto.ThreadInfoDto;
+import com.example.application.dto.TimeInfoDto;
 import com.example.application.service.TimeApplicationService;
-import com.example.domain.model.ThreadInfo;
-import com.example.domain.model.TimeInfo;
+import com.example.domain.exception.BusinessException;
 import com.example.interfaces.common.Result;
-import com.example.interfaces.dto.ThreadInfoDto;
-import com.example.interfaces.dto.TimeInfoDto;
-import com.example.interfaces.exception.BusinessException;
-import com.example.interfaces.mapper.ThreadInfoMapper;
-import com.example.interfaces.mapper.TimeInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +19,7 @@ import java.util.List;
 /**
  * 时间相关接口控制器
  * 提供时间查询和虚拟线程测试的REST接口
- * 使用MapStruct进行Domain对象与DTO对象之间的转换
+ * 直接调用Application层服务，获取DTO对象
  * 
  * @author Claude
  * @since 1.0.0
@@ -38,8 +34,6 @@ public class TimeController {
      */
     @Autowired
     private TimeApplicationService timeApplicationService;
-    
-
 
     /**
      * 获取当前时间接口
@@ -49,8 +43,7 @@ public class TimeController {
     @GetMapping("/time")
     public Result<TimeInfoDto> getCurrentTime() {
         try {
-            TimeInfo timeInfo = timeApplicationService.getCurrentTime();
-            TimeInfoDto timeInfoDto = TimeInfoMapper.INSTANCE.toDto(timeInfo);
+            TimeInfoDto timeInfoDto = timeApplicationService.getCurrentTime();
             return Result.success(timeInfoDto);
         } catch (Exception e) {
             throw BusinessException.threadError("获取当前时间失败", e);
@@ -73,8 +66,7 @@ public class TimeController {
             int threadCount) {
         
         try {
-            List<ThreadInfo> threadInfos = timeApplicationService.executeVirtualThreadTasks(threadCount);
-            List<ThreadInfoDto> threadInfoDtos = ThreadInfoMapper.INSTANCE.toDtoList(threadInfos);
+            List<ThreadInfoDto> threadInfoDtos = timeApplicationService.executeVirtualThreadTasks(threadCount);
             return Result.success(threadInfoDtos);
         } catch (Exception e) {
             throw BusinessException.threadError("虚拟线程测试执行失败", e);

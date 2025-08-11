@@ -1,4 +1,4 @@
-package com.example.interfaces.exception;
+package com.example.domain.exception;
 
 /**
  * 业务异常类

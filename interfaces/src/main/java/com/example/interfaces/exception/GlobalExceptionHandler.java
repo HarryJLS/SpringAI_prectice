@@ -1,5 +1,6 @@
 package com.example.interfaces.exception;
 
+import com.example.domain.exception.BusinessException;
 import com.example.interfaces.common.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;

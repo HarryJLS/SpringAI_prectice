@@ -1,13 +1,13 @@
-package com.example.interfaces.mapper;
+package com.example.application.mapper;
 
 import com.example.domain.model.TimeInfo;
-import com.example.interfaces.dto.TimeInfoDto;
+import com.example.application.dto.TimeInfoDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 /**
  * 时间信息映射器
- * 使用静态方法进行Domain对象与DTO对象之间的转换
+ * 使用MapStruct进行Domain对象与DTO对象之间的转换
  * 
  * @author Claude
  * @since 1.0.0

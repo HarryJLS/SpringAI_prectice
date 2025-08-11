@@ -1,5 +1,9 @@
 package com.example.application.service;
 
+import com.example.application.dto.ThreadInfoDto;
+import com.example.application.dto.TimeInfoDto;
+import com.example.application.mapper.ThreadInfoMapper;
+import com.example.application.mapper.TimeInfoMapper;
 import com.example.domain.model.ThreadInfo;
 import com.example.domain.model.TimeInfo;
 import com.example.domain.service.TimeService;
@@ -16,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * 时间应用服务类
  * 负责编排时间相关的业务流程，协调Domain层服务
- * 返回Domain对象，由Interface层负责转换为DTO
+ * 负责Domain对象与DTO对象之间的转换
  * 
  * @author Claude
  * @since 1.0.0
@@ -40,10 +44,11 @@ public class TimeApplicationService {
     /**
      * 获取当前时间
      * 
-     * @return 时间信息Domain对象
+     * @return 时间信息DTO对象
      */
-    public TimeInfo getCurrentTime() {
-        return timeService.getCurrentTimeInfo();
+    public TimeInfoDto getCurrentTime() {
+        TimeInfo timeInfo = timeService.getCurrentTimeInfo();
+        return TimeInfoMapper.INSTANCE.toDto(timeInfo);
     }
     
     /**
@@ -52,9 +57,9 @@ public class TimeApplicationService {
      * 使用CompletableFuture.get()阻塞等待所有线程执行完成
      * 
      * @param threadCount 要创建的线程数量
-     * @return 包含所有线程执行结果的Domain对象列表
+     * @return 包含所有线程执行结果的DTO对象列表
      */
-    public List<ThreadInfo> executeVirtualThreadTasks(int threadCount) {
+    public List<ThreadInfoDto> executeVirtualThreadTasks(int threadCount) {
         List<CompletableFuture<ThreadInfo>> futures = new ArrayList<>();
         
         // 创建并提交虚拟线程任务
@@ -68,8 +73,8 @@ public class TimeApplicationService {
             futures.add(future);
         }
         
-        // 阻塞等待所有线程执行完成
-        return futures.stream()
+        // 阻塞等待所有线程执行完成，并转换为DTO
+        List<ThreadInfo> threadInfos = futures.stream()
                 .map(future -> {
                     try {
                         return future.get();
@@ -79,5 +84,7 @@ public class TimeApplicationService {
                     }
                 })
                 .collect(Collectors.toList());
+        
+        return ThreadInfoMapper.INSTANCE.toDtoList(threadInfos);
     }
 }
