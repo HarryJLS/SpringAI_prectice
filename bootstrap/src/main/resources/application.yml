@@ -21,6 +21,39 @@ spring:
         options:
           model: qwen-plus
 
+# MyBatis Plus 配置
+mybatis-plus:
+  # 配置 mapper.xml 文件路径
+  mapper-locations: classpath*:mapper/**/*.xml
+  # 配置实体类包路径
+  type-aliases-package: com.example.infrastructure.persistence.po
+  # 配置
+  configuration:
+    # 开启驼峰命名转换
+    map-underscore-to-camel-case: true
+    # 开启二级缓存
+    cache-enabled: true
+    # 设置查询超时时间
+    default-statement-timeout: 30
+    # 设置数据库字段映射到实体的默认策略
+    auto-mapping-behavior: partial
+  # 全局配置
+  global-config:
+    # 数据库配置
+    db-config:
+      # 主键类型 (AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID", UUID:"全局唯一ID")
+      id-type: AUTO
+      # 字段策略 (IGNORED:"忽略判断", NOT_NULL:"非NULL判断", NOT_EMPTY:"非空判断")
+      field-strategy: NOT_EMPTY
+      # 表名下划线命名
+      table-underline: true
+      # 逻辑删除字段名
+      logic-delete-field: deleted
+      # 逻辑删除全局值（默认 1、表示已删除）
+      logic-delete-value: 1
+      # 逻辑未删除全局值（默认 0、表示未删除）
+      logic-not-delete-value: 0
+
 server:
   port: 8080
 
