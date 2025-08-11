@@ -2,10 +2,10 @@ spring:
   application:
     name: ddd-project
   datasource:
-    url: ${mysqlurl}
+    url: ${mysqlUrl}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ${mysqlusername}
-    password: ${mysqlpassword}
+    username: ${mysqlUsername}
+    password: ${mysqlPassword}
     hikari:
       pool-name: HikariCP
       minimum-idle: 5
