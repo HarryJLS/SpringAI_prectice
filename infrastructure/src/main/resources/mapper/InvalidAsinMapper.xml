@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.infrastructure.persistence.mapper.InvalidAsinMapper">
+
+    <!-- 基础结果映射 -->
+    <resultMap id="BaseResultMap" type="com.example.infrastructure.persistence.DO.InvalidAsinDO">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="tenant_id" property="tenantId" jdbcType="VARCHAR"/>
+        <result column="apply_instance_id" property="applyInstanceId" jdbcType="VARCHAR"/>
+        <result column="template_id" property="templateId" jdbcType="VARCHAR"/>
+        <result column="profile_id" property="profileId" jdbcType="VARCHAR"/>
+        <result column="marketplace_id" property="marketplaceId" jdbcType="VARCHAR"/>
+        <result column="seller_id" property="sellerId" jdbcType="VARCHAR"/>
+        <result column="seller_asin" property="sellerAsin" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="ds" property="ds" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 基础列 -->
+    <sql id="Base_Column_List">
+        id, tenant_id, apply_instance_id, template_id, profile_id, marketplace_id, 
+        seller_id, seller_asin, create_time, ds
+    </sql>
+
+    <!-- 根据租户ID和ASIN查询 -->
+    <select id="selectByTenantIdAndSellerAsin" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM fenghuo_ad_smart_creation_invalid_asin
+        WHERE tenant_id = #{tenantId}
+        <if test="sellerAsin != null and sellerAsin != ''">
+            AND seller_asin = #{sellerAsin}
+        </if>
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 根据租户ID和Profile ID查询 -->
+    <select id="selectByTenantIdAndProfileId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM fenghuo_ad_smart_creation_invalid_asin
+        WHERE tenant_id = #{tenantId}
+        <if test="profileId != null and profileId != ''">
+            AND profile_id = #{profileId}
+        </if>
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 批量插入 -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO fenghuo_ad_smart_creation_invalid_asin
+        (tenant_id, apply_instance_id, template_id, profile_id, marketplace_id, 
+         seller_id, seller_asin, create_time, ds)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.tenantId}, #{item.applyInstanceId}, #{item.templateId}, 
+             #{item.profileId}, #{item.marketplaceId}, #{item.sellerId}, 
+             #{item.sellerAsin}, #{item.createTime}, #{item.ds})
+        </foreach>
+    </insert>
+
+    <!-- 根据条件删除 -->
+    <delete id="deleteByCondition" parameterType="java.lang.String">
+        DELETE FROM fenghuo_ad_smart_creation_invalid_asin
+        WHERE 1=1
+        <if test="tenantId != null and tenantId != ''">
+            AND tenant_id = #{tenantId}
+        </if>
+        <if test="profileId != null and profileId != ''">
+            AND profile_id = #{profileId}
+        </if>
+        <if test="marketplaceId != null and marketplaceId != ''">
+            AND marketplace_id = #{marketplaceId}
+        </if>
+    </delete>
+
+</mapper>
