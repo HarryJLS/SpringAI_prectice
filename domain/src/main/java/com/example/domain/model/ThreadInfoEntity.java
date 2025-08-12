@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Claude
  * @since 1.0.0
  */
-public class ThreadInfo {
+public class ThreadInfoEntity {
     
     /**
      * 线程索引
@@ -35,7 +35,7 @@ public class ThreadInfo {
      * @param threadName 线程名称
      * @param executionTime 执行时间
      */
-    public ThreadInfo(int threadIndex, String threadName, String executionTime) {
+    public ThreadInfoEntity(int threadIndex, String threadName, String executionTime) {
         this.threadIndex = threadIndex;
         this.threadName = Objects.requireNonNull(threadName, "线程名称不能为空");
         this.executionTime = Objects.requireNonNull(executionTime, "执行时间不能为空");
@@ -48,8 +48,8 @@ public class ThreadInfo {
      * @param formatter 时间格式化器
      * @return ThreadInfo实例
      */
-    public static ThreadInfo current(int threadIndex, DateTimeFormatter formatter) {
-        return new ThreadInfo(
+    public static ThreadInfoEntity current(int threadIndex, DateTimeFormatter formatter) {
+        return new ThreadInfoEntity(
             threadIndex,
             Thread.currentThread().getName(),
             LocalDateTime.now().format(formatter)
@@ -97,7 +97,7 @@ public class ThreadInfo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ThreadInfo that = (ThreadInfo) o;
+        ThreadInfoEntity that = (ThreadInfoEntity) o;
         return threadIndex == that.threadIndex &&
                Objects.equals(threadName, that.threadName) &&
                Objects.equals(executionTime, that.executionTime);

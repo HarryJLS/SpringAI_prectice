@@ -1,7 +1,7 @@
 package com.example.domain.service;
 
-import com.example.domain.model.TimeInfo;
-import com.example.domain.model.ThreadInfo;
+import com.example.domain.model.TimeInfoEntity;
+import com.example.domain.model.ThreadInfoEntity;
 
 /**
  * 时间服务接口
@@ -16,7 +16,7 @@ public interface TimeService {
      * 
      * @return 时间信息值对象
      */
-    TimeInfo getCurrentTimeInfo();
+    TimeInfoEntity getCurrentTimeInfo();
     
     /**
      * 获取线程时间信息
@@ -24,7 +24,7 @@ public interface TimeService {
      * @param threadIndex 线程索引
      * @return 线程信息值对象
      */
-    ThreadInfo getThreadTimeInfo(int threadIndex);
+    ThreadInfoEntity getThreadTimeInfo(int threadIndex);
     
     /**
      * 模拟工作负载
@@ -44,5 +44,5 @@ public interface TimeService {
      * @return 线程信息值对象
      * @throws RuntimeException 当线程被中断时抛出
      */
-    ThreadInfo executeTaskAndGetThreadInfo(int threadIndex);
+    ThreadInfoEntity executeTaskAndGetThreadInfo(int threadIndex);
 }

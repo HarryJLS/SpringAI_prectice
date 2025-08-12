@@ -4,8 +4,8 @@ import com.example.application.dto.ThreadInfoDto;
 import com.example.application.dto.TimeInfoDto;
 import com.example.application.mapper.ThreadInfoMapper;
 import com.example.application.mapper.TimeInfoMapper;
-import com.example.domain.model.ThreadInfo;
-import com.example.domain.model.TimeInfo;
+import com.example.domain.model.ThreadInfoEntity;
+import com.example.domain.model.TimeInfoEntity;
 import com.example.domain.service.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,8 +47,8 @@ public class TimeApplicationService {
      * @return 时间信息DTO对象
      */
     public TimeInfoDto getCurrentTime() {
-        TimeInfo timeInfo = timeService.getCurrentTimeInfo();
-        return TimeInfoMapper.INSTANCE.toDto(timeInfo);
+        TimeInfoEntity timeInfoEntity = timeService.getCurrentTimeInfo();
+        return TimeInfoMapper.INSTANCE.toDto(timeInfoEntity);
     }
     
     /**
@@ -60,12 +60,12 @@ public class TimeApplicationService {
      * @return 包含所有线程执行结果的DTO对象列表
      */
     public List<ThreadInfoDto> executeVirtualThreadTasks(int threadCount) {
-        List<CompletableFuture<ThreadInfo>> futures = new ArrayList<>();
+        List<CompletableFuture<ThreadInfoEntity>> futures = new ArrayList<>();
         
         // 创建并提交虚拟线程任务
         for (int i = 0; i < threadCount; i++) {
             final int threadIndex = i;
-            CompletableFuture<ThreadInfo> future = CompletableFuture.supplyAsync(() -> {
+            CompletableFuture<ThreadInfoEntity> future = CompletableFuture.supplyAsync(() -> {
                 // 使用新方法，在虚拟线程内部执行任务并获取线程信息
                 return timeService.executeTaskAndGetThreadInfo(threadIndex);
             }, virtualThreadPool);
@@ -74,17 +74,17 @@ public class TimeApplicationService {
         }
         
         // 阻塞等待所有线程执行完成，并转换为DTO
-        List<ThreadInfo> threadInfos = futures.stream()
+        List<ThreadInfoEntity> threadInfoEntities = futures.stream()
                 .map(future -> {
                     try {
                         return future.get();
                     } catch (Exception e) {
                         // 创建错误信息的ThreadInfo
-                        return new ThreadInfo(-1, "Error", "Thread error: " + e.getMessage());
+                        return new ThreadInfoEntity(-1, "Error", "Thread error: " + e.getMessage());
                     }
                 })
                 .collect(Collectors.toList());
         
-        return ThreadInfoMapper.INSTANCE.toDtoList(threadInfos);
+        return ThreadInfoMapper.INSTANCE.toDtoList(threadInfoEntities);
     }
 }

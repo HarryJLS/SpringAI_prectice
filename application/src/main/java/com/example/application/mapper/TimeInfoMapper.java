@@ -1,6 +1,6 @@
 package com.example.application.mapper;
 
-import com.example.domain.model.TimeInfo;
+import com.example.domain.model.TimeInfoEntity;
 import com.example.application.dto.TimeInfoDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -20,10 +20,10 @@ public interface TimeInfoMapper {
     /**
      * Domain对象转换为DTO
      * 
-     * @param timeInfo Domain层时间信息对象
+     * @param timeInfoEntity Domain层时间信息对象
      * @return DTO时间信息对象
      */
-    TimeInfoDto toDto(TimeInfo timeInfo);
+    TimeInfoDto toDto(TimeInfoEntity timeInfoEntity);
     
     /**
      * DTO转换为Domain对象
@@ -31,5 +31,5 @@ public interface TimeInfoMapper {
      * @param timeInfoDto DTO时间信息对象
      * @return Domain层时间信息对象
      */
-    TimeInfo toDomain(TimeInfoDto timeInfoDto);
+    TimeInfoEntity toDomain(TimeInfoDto timeInfoDto);
 }

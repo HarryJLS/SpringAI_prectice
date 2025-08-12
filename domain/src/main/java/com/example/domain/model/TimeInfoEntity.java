@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Claude
  * @since 1.0.0
  */
-public class TimeInfo {
+public class TimeInfoEntity {
     
     /**
      * 格式化的当前时间
@@ -28,7 +28,7 @@ public class TimeInfo {
      * @param currentTime 格式化的当前时间
      * @param timestamp 时间戳
      */
-    public TimeInfo(String currentTime, Long timestamp) {
+    public TimeInfoEntity(String currentTime, Long timestamp) {
         this.currentTime = Objects.requireNonNull(currentTime, "当前时间不能为空");
         this.timestamp = Objects.requireNonNull(timestamp, "时间戳不能为空");
     }
@@ -39,9 +39,9 @@ public class TimeInfo {
      * @param formatter 时间格式化器
      * @return TimeInfo实例
      */
-    public static TimeInfo now(java.time.format.DateTimeFormatter formatter) {
+    public static TimeInfoEntity now(java.time.format.DateTimeFormatter formatter) {
         LocalDateTime now = LocalDateTime.now();
-        return new TimeInfo(
+        return new TimeInfoEntity(
             now.format(formatter),
             System.currentTimeMillis()
         );
@@ -69,9 +69,9 @@ public class TimeInfo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TimeInfo timeInfo = (TimeInfo) o;
-        return Objects.equals(currentTime, timeInfo.currentTime) &&
-               Objects.equals(timestamp, timeInfo.timestamp);
+        TimeInfoEntity timeInfoEntity = (TimeInfoEntity) o;
+        return Objects.equals(currentTime, timeInfoEntity.currentTime) &&
+               Objects.equals(timestamp, timeInfoEntity.timestamp);
     }
     
     @Override

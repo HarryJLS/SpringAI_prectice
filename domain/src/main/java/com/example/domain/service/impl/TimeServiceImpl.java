@@ -1,8 +1,8 @@
 package com.example.domain.service.impl;
 
 import com.example.domain.constant.TimeConstants;
-import com.example.domain.model.TimeInfo;
-import com.example.domain.model.ThreadInfo;
+import com.example.domain.model.TimeInfoEntity;
+import com.example.domain.model.ThreadInfoEntity;
 import com.example.domain.service.TimeService;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +22,8 @@ public class TimeServiceImpl implements TimeService {
      * @return 时间信息值对象
      */
     @Override
-    public TimeInfo getCurrentTimeInfo() {
-        return TimeInfo.now(TimeConstants.TIME_FORMATTER);
+    public TimeInfoEntity getCurrentTimeInfo() {
+        return TimeInfoEntity.now(TimeConstants.TIME_FORMATTER);
     }
     
     /**
@@ -33,8 +33,8 @@ public class TimeServiceImpl implements TimeService {
      * @return 线程信息值对象
      */
     @Override
-    public ThreadInfo getThreadTimeInfo(int threadIndex) {
-        return ThreadInfo.current(threadIndex, TimeConstants.PRECISE_TIME_FORMATTER);
+    public ThreadInfoEntity getThreadTimeInfo(int threadIndex) {
+        return ThreadInfoEntity.current(threadIndex, TimeConstants.PRECISE_TIME_FORMATTER);
     }
     
     /**
@@ -64,10 +64,10 @@ public class TimeServiceImpl implements TimeService {
      * @throws RuntimeException 当线程被中断时抛出运行时异常
      */
     @Override
-    public ThreadInfo executeTaskAndGetThreadInfo(int threadIndex) {
+    public ThreadInfoEntity executeTaskAndGetThreadInfo(int threadIndex) {
         // 先执行模拟工作
         simulateWork(threadIndex);
         // 然后在当前线程（虚拟线程）中获取线程信息
-        return ThreadInfo.current(threadIndex, TimeConstants.PRECISE_TIME_FORMATTER);
+        return ThreadInfoEntity.current(threadIndex, TimeConstants.PRECISE_TIME_FORMATTER);
     }
 }

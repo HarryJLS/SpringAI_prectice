@@ -1,6 +1,6 @@
 package com.example.application.mapper;
 
-import com.example.domain.model.ThreadInfo;
+import com.example.domain.model.ThreadInfoEntity;
 import com.example.application.dto.ThreadInfoDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -22,10 +22,10 @@ public interface ThreadInfoMapper {
     /**
      * Domain对象转换为DTO
      * 
-     * @param threadInfo Domain层线程信息对象
+     * @param threadInfoEntity Domain层线程信息对象
      * @return DTO线程信息对象
      */
-    ThreadInfoDto toDto(ThreadInfo threadInfo);
+    ThreadInfoDto toDto(ThreadInfoEntity threadInfoEntity);
     
     /**
      * DTO转换为Domain对象
@@ -33,15 +33,15 @@ public interface ThreadInfoMapper {
      * @param threadInfoDto DTO线程信息对象
      * @return Domain层线程信息对象
      */
-    ThreadInfo toDomain(ThreadInfoDto threadInfoDto);
+    ThreadInfoEntity toDomain(ThreadInfoDto threadInfoDto);
     
     /**
      * Domain对象列表转换为DTO列表
      * 
-     * @param threadInfos Domain层线程信息对象列表
+     * @param threadInfoEntities Domain层线程信息对象列表
      * @return DTO线程信息对象列表
      */
-    List<ThreadInfoDto> toDtoList(List<ThreadInfo> threadInfos);
+    List<ThreadInfoDto> toDtoList(List<ThreadInfoEntity> threadInfoEntities);
     
     /**
      * DTO列表转换为Domain对象列表
@@ -49,5 +49,5 @@ public interface ThreadInfoMapper {
      * @param threadInfoDtos DTO线程信息对象列表
      * @return Domain层线程信息对象列表
      */
-    List<ThreadInfo> toDomainList(List<ThreadInfoDto> threadInfoDtos);
+    List<ThreadInfoEntity> toDomainList(List<ThreadInfoDto> threadInfoDtos);
 }
