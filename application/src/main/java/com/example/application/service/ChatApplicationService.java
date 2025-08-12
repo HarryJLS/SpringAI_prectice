@@ -3,6 +3,7 @@ package com.example.application.service;
 import com.example.application.dto.ChatRequestDto;
 import com.example.application.dto.ChatResponseDto;
 import com.example.domain.exception.BusinessException;
+import com.example.domain.client.ExternalService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
@@ -33,6 +34,9 @@ public class ChatApplicationService {
     @Autowired
     @Qualifier("contextualChatClient")
     private ChatClient contextualChatClient;
+
+    @Autowired
+    private ExternalService externalService;
 
     /**
      * 内存中的聊天会话存储，生产环境建议使用Redis等持久化存储
@@ -156,5 +160,16 @@ public class ChatApplicationService {
      */
     private String generateSessionId() {
         return "chat_" + UUID.randomUUID().toString().replace("-", "");
+    }
+
+    /**
+     * Example method demonstrating the use of the abstracted external service.
+     *
+     * @param id The id to query.
+     * @return The result from the external service.
+     */
+    public String getInfoFromExternalService(String id) {
+        logger.debug("调用外部服务，ID: {}", id);
+        return externalService.getExternalInfo(id);
     }
 }
