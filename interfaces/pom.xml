@@ -69,5 +69,11 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
+
+        <!-- Spring Common -->
+        <dependency>
+            <groupId>com.common</groupId>
+            <artifactId>spring-common</artifactId>
+        </dependency>
     </dependencies>
 </project> 

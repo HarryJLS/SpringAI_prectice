@@ -2,7 +2,7 @@ package com.example.interfaces.controller;
 
 import com.example.application.service.InvalidAsinApplicationService;
 import com.example.domain.exception.BusinessException;
-import com.example.interfaces.common.Result;
+import com.common.response.JlsResponse;
 import com.example.application.dto.InvalidAsinDTO;
 import com.example.application.dto.InvalidAsinQueryDTO;
 import lombok.RequiredArgsConstructor;
@@ -38,10 +38,10 @@ public class InvalidAsinController {
      * @return 创建后的对象
      */
     @PostMapping
-    public Result<InvalidAsinDTO> createInvalidAsin(@Valid @RequestBody InvalidAsinDTO invalidAsin) {
+    public JlsResponse<InvalidAsinDTO> createInvalidAsin(@Valid @RequestBody InvalidAsinDTO invalidAsin) {
         try {
             InvalidAsinDTO result = invalidAsinApplicationService.createInvalidAsin(invalidAsin);
-            return Result.success(result);
+            return JlsResponse.success(result);
         } catch (Exception e) {
             log.error("创建无效ASIN失败", e);
             throw BusinessException.threadError("创建无效ASIN失败", e);
@@ -55,11 +55,11 @@ public class InvalidAsinController {
      * @return 创建成功的条数
      */
     @PostMapping("/batch")
-    public Result<Integer> batchCreateInvalidAsin(@Valid @RequestBody @NotEmpty(message = "无效ASIN列表不能为空") 
+    public JlsResponse<Integer> batchCreateInvalidAsin(@Valid @RequestBody @NotEmpty(message = "无效ASIN列表不能为空") 
                                                   List<InvalidAsinDTO> invalidAsins) {
         try {
             int count = invalidAsinApplicationService.batchCreateInvalidAsin(invalidAsins);
-            return Result.success(count);
+            return JlsResponse.success(count);
         } catch (Exception e) {
             log.error("批量创建无效ASIN失败", e);
             throw BusinessException.threadError("批量创建无效ASIN失败", e);
@@ -73,10 +73,10 @@ public class InvalidAsinController {
      * @return 无效ASIN DTO
      */
     @GetMapping("/{id}")
-    public Result<InvalidAsinDTO> getInvalidAsinById(@PathVariable @NotNull(message = "ID不能为空") Long id) {
+    public JlsResponse<InvalidAsinDTO> getInvalidAsinById(@PathVariable @NotNull(message = "ID不能为空") Long id) {
         try {
             InvalidAsinDTO result = invalidAsinApplicationService.getInvalidAsinById(id);
-            return Result.success(result);
+            return JlsResponse.success(result);
         } catch (Exception e) {
             log.error("查询无效ASIN失败", e);
             throw BusinessException.threadError("查询无效ASIN失败", e);
@@ -90,10 +90,10 @@ public class InvalidAsinController {
      * @return 无效ASIN列表
      */
     @GetMapping("/list")
-    public Result<List<InvalidAsinDTO>> getInvalidAsinList(@Valid InvalidAsinQueryDTO queryDTO) {
+    public JlsResponse<List<InvalidAsinDTO>> getInvalidAsinList(@Valid InvalidAsinQueryDTO queryDTO) {
         try {
             List<InvalidAsinDTO> result = invalidAsinApplicationService.getInvalidAsinList(queryDTO);
-            return Result.success(result);
+            return JlsResponse.success(result);
         } catch (Exception e) {
             log.error("查询无效ASIN列表失败", e);
             throw BusinessException.threadError("查询无效ASIN列表失败", e);
@@ -108,13 +108,13 @@ public class InvalidAsinController {
      * @return 无效ASIN列表
      */
     @GetMapping("/tenant/{tenantId}/asin/{sellerAsin}")
-    public Result<List<InvalidAsinDTO>> getInvalidAsinByTenantAndAsin(
+    public JlsResponse<List<InvalidAsinDTO>> getInvalidAsinByTenantAndAsin(
             @PathVariable String tenantId,
             @PathVariable String sellerAsin) {
         try {
             List<InvalidAsinDTO> result = invalidAsinApplicationService
                     .getInvalidAsinByTenantAndAsin(tenantId, sellerAsin);
-            return Result.success(result);
+            return JlsResponse.success(result);
         } catch (Exception e) {
             log.error("根据租户和ASIN查询无效ASIN失败", e);
             throw BusinessException.threadError("根据租户和ASIN查询无效ASIN失败", e);
@@ -129,12 +129,12 @@ public class InvalidAsinController {
      * @return 更新后的对象
      */
     @PutMapping("/{id}")
-    public Result<InvalidAsinDTO> updateInvalidAsin(@PathVariable @NotNull(message = "ID不能为空") Long id,
+    public JlsResponse<InvalidAsinDTO> updateInvalidAsin(@PathVariable @NotNull(message = "ID不能为空") Long id,
                                                     @Valid @RequestBody InvalidAsinDTO invalidAsin) {
         try {
             invalidAsin.setId(id);
             InvalidAsinDTO result = invalidAsinApplicationService.updateInvalidAsin(invalidAsin);
-            return Result.success(result);
+            return JlsResponse.success(result);
         } catch (Exception e) {
             log.error("更新无效ASIN失败", e);
             throw BusinessException.threadError("更新无效ASIN失败", e);
@@ -148,10 +148,10 @@ public class InvalidAsinController {
      * @return 删除是否成功
      */
     @DeleteMapping("/{id}")
-    public Result<Boolean> deleteInvalidAsinById(@PathVariable @NotNull(message = "ID不能为空") Long id) {
+    public JlsResponse<Boolean> deleteInvalidAsinById(@PathVariable @NotNull(message = "ID不能为空") Long id) {
         try {
             boolean result = invalidAsinApplicationService.deleteInvalidAsinById(id);
-            return Result.success(result);
+            return JlsResponse.success(result);
         } catch (Exception e) {
             log.error("删除无效ASIN失败", e);
             throw BusinessException.threadError("删除无效ASIN失败", e);
@@ -167,13 +167,13 @@ public class InvalidAsinController {
      * @return 删除的条数
      */
     @DeleteMapping("/condition")
-    public Result<Integer> deleteInvalidAsinByCondition(
+    public JlsResponse<Integer> deleteInvalidAsinByCondition(
             @RequestParam String tenantId,
             @RequestParam(required = false) String profileId,
             @RequestParam(required = false) String marketplaceId) {
         try {
             int count = invalidAsinApplicationService.deleteInvalidAsinByCondition(tenantId, profileId, marketplaceId);
-            return Result.success(count);
+            return JlsResponse.success(count);
         } catch (Exception e) {
             log.error("根据条件删除无效ASIN失败", e);
             throw BusinessException.threadError("根据条件删除无效ASIN失败", e);
@@ -187,10 +187,10 @@ public class InvalidAsinController {
      * @return 记录数
      */
     @GetMapping("/count")
-    public Result<Long> countInvalidAsin(@Valid InvalidAsinQueryDTO queryDTO) {
+    public JlsResponse<Long> countInvalidAsin(@Valid InvalidAsinQueryDTO queryDTO) {
         try {
             long count = invalidAsinApplicationService.countInvalidAsin(queryDTO);
-            return Result.success(count);
+            return JlsResponse.success(count);
         } catch (Exception e) {
             log.error("统计无效ASIN记录数失败", e);
             throw BusinessException.threadError("统计无效ASIN记录数失败", e);

@@ -1,10 +1,10 @@
 package com.example.interfaces.controller;
 
+import com.common.response.JlsResponse;
 import com.example.application.dto.ChatRequestDto;
 import com.example.application.dto.ChatResponseDto;
 import com.example.application.service.ChatApplicationService;
 import com.example.domain.exception.BusinessException;
-import com.example.interfaces.common.Result;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -40,7 +40,7 @@ public class AiController {
      * @return 统一响应结果，包含AI的回复内容
      */
     @PostMapping("/chat")
-    public Result<ChatResponseDto> chat(@Valid @RequestBody ChatRequestDto request) {
+    public JlsResponse<ChatResponseDto> chat(@Valid @RequestBody ChatRequestDto request) {
         try {
             String response = statelessChatClient.prompt()
                     .user(request.getMessage())
@@ -54,7 +54,7 @@ public class AiController {
                 false // 未使用上下文
             );
             
-            return Result.success(chatResponse);
+            return JlsResponse.success(chatResponse);
         } catch (Exception e) {
             throw BusinessException.threadError("AI 服务调用失败", e);
         }
@@ -68,9 +68,9 @@ public class AiController {
      * @return 统一响应结果，包含AI的回复内容和会话信息
      */
     @PostMapping("/chat/context")
-    public Result<ChatResponseDto> chatWithContext(@Valid @RequestBody ChatRequestDto request) {
+    public JlsResponse<ChatResponseDto> chatWithContext(@Valid @RequestBody ChatRequestDto request) {
         ChatResponseDto response = chatApplicationService.chat(request);
-        return Result.success(response);
+        return JlsResponse.success(response);
     }
 
     /**
@@ -80,9 +80,9 @@ public class AiController {
      * @return 操作结果
      */
     @DeleteMapping("/chat/context/{sessionId}")
-    public Result<String> clearContext(@PathVariable String sessionId) {
+    public JlsResponse<String> clearContext(@PathVariable String sessionId) {
         chatApplicationService.clearContext(sessionId);
-        return Result.success("会话上下文已清除");
+        return JlsResponse.success("会话上下文已清除");
     }
 
     /**
@@ -92,9 +92,9 @@ public class AiController {
      * @return 会话中的消息数量
      */
     @GetMapping("/chat/context/{sessionId}/info")
-    public Result<Integer> getContextInfo(@PathVariable String sessionId) {
+    public JlsResponse<Integer> getContextInfo(@PathVariable String sessionId) {
         int contextSize = chatApplicationService.getContextSize(sessionId);
-        return Result.success(contextSize);
+        return JlsResponse.success(contextSize);
     }
 
 }

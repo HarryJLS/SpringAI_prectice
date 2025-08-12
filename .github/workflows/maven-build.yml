@@ -14,6 +14,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
+    - name: Checkout common module
+      uses: actions/checkout@v4
+      with:
+        repository: HarryJLS/Spring-common  # 替换为你的公共模块仓库
+        path: Spring-common
+        token: ${{ secrets.GITHUB_TOKEN }}
+      
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
@@ -27,8 +34,17 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
         
+    - name: Install common module
+      run: |
+        cd spring-common
+        mvn clean install -DskipTests
+        cd ..
+        
+    - name: Install dependencies and compile
+      run: mvn clean compile
+        
     - name: Run tests
-      run: mvn clean test
+      run: mvn test
       
     - name: Build and package
       run: mvn clean package -DskipTests

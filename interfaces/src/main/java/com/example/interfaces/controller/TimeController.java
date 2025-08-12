@@ -4,7 +4,7 @@ import com.example.application.dto.ThreadInfoDto;
 import com.example.application.dto.TimeInfoDto;
 import com.example.application.service.TimeApplicationService;
 import com.example.domain.exception.BusinessException;
-import com.example.interfaces.common.Result;
+import com.common.response.JlsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,10 +41,10 @@ public class TimeController {
      * @return 统一响应结果，包含当前时间和时间戳信息
      */
     @GetMapping("/time")
-    public Result<TimeInfoDto> getCurrentTime() {
+    public JlsResponse<TimeInfoDto> getCurrentTime() {
         try {
             TimeInfoDto timeInfoDto = timeApplicationService.getCurrentTime();
-            return Result.success(timeInfoDto);
+            return JlsResponse.success(timeInfoDto);
         } catch (Exception e) {
             throw BusinessException.threadError("获取当前时间失败", e);
         }
@@ -59,7 +59,7 @@ public class TimeController {
      * @return 统一响应结果，包含所有线程的执行信息列表
      */
     @GetMapping("/virtual-thread")
-    public Result<List<ThreadInfoDto>> virtualThreadTest(
+    public JlsResponse<List<ThreadInfoDto>> virtualThreadTest(
             @RequestParam(defaultValue = "5") 
             @Min(value = 1, message = "线程数量不能小于1")
             @Max(value = 100, message = "线程数量不能大于100") 
@@ -67,7 +67,7 @@ public class TimeController {
         
         try {
             List<ThreadInfoDto> threadInfoDtos = timeApplicationService.executeVirtualThreadTasks(threadCount);
-            return Result.success(threadInfoDtos);
+            return JlsResponse.success(threadInfoDtos);
         } catch (Exception e) {
             throw BusinessException.threadError("虚拟线程测试执行失败", e);
         }
@@ -81,7 +81,7 @@ public class TimeController {
      * @return 不会正常返回，会抛出异常被全局异常处理器捕获
      */
     @GetMapping("/test-exception")
-    public Result<String> testException(@RequestParam(defaultValue = "business") String type) {
+    public JlsResponse<String> testException(@RequestParam(defaultValue = "business") String type) {
         switch (type.toLowerCase()) {
             case "business":
                 throw BusinessException.paramError("这是一个测试业务异常");
@@ -91,7 +91,7 @@ public class TimeController {
                 String nullStr = null;
                 @SuppressWarnings("null")
                 String result = nullStr.toString(); // 故意触发NullPointerException
-                return Result.success(result);
+                return JlsResponse.success(result);
             case "illegal":
                 throw new IllegalArgumentException("这是一个测试参数异常");
             default:
