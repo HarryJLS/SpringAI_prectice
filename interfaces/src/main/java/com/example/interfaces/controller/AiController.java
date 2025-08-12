@@ -53,7 +53,8 @@ public class AiController {
                 response,
                 false // 未使用上下文
             );
-            
+
+
             return JlsResponse.success(chatResponse);
         } catch (Exception e) {
             throw BusinessException.threadError("AI 服务调用失败", e);
